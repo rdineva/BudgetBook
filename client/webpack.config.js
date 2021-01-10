@@ -42,7 +42,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'React Playground',
       filename: 'index.html',
-      template: 'src/index.ejs',
     }),
   ],
 };

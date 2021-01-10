@@ -1,6 +1,6 @@
 type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
-const API_URL = 'http://localhost:3001';
+const API_URL = 'http://localhost:3000';
 
 class HttpService {
   private async sendHttpRequest(path: string, method: HTTPMethod, data?: any, options?: any): Promise<any> {
