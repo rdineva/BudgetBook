@@ -3,6 +3,11 @@ import {
 } from 'typeorm';
 import { User } from './user';
 
+export enum BudgetType {
+    TEMPLATE = "template",
+    BUDGET_ENTRY = "budget entry",
+}
+
 @Entity()
 export class Budget extends BaseEntity {
 
@@ -12,14 +17,18 @@ export class Budget extends BaseEntity {
 	@Column()
 	name: string;
 
-	@Column('date')
+	@Column({type: 'timestamp', default: () => 'CURRENT_TIMESTAMP'})
 	dateCreated: Date;
 
 	@Column({ type: 'json'})
 	content: JSON;
 
-	@Column()
-	type: string;
+	@Column({
+        type: "enum",
+        enum: BudgetType,
+        default: BudgetType.BUDGET_ENTRY
+    })
+	type: BudgetType;
 
 	@ManyToOne(() => User, user => user.budgets)
 	user: User;
