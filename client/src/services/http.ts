@@ -7,9 +7,9 @@ class HttpService {
     let requestOptions = { method, ...options };
 
     if (data) {
-      requestOptions = { ...requestOptions, body: JSON.stringify(data) };
+      requestOptions = { ...requestOptions, body: data };
     }
-
+    console.log(requestOptions)
     const response = await window.fetch(`${API_URL}/${path}`, requestOptions);
     return response.json();
   }

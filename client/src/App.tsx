@@ -1,26 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { CssBaseline } from '@material-ui/core';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import { createStore, applyMiddleware } from 'redux';
+import CustomAppBar from './components/app-bar';
+import { BudgetCreate } from './containers/budget/budget-create';
+import rootReducer from './store';
 
-function App() {
+const store = createStore(rootReducer, applyMiddleware(thunk));
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <BrowserRouter>
+        <CssBaseline />
+        <CustomAppBar />
+        <Switch>
+          <Route path="/budgets/create" exact component={BudgetCreate} />
+        </Switch>
+      </BrowserRouter>
+    </Provider>
   );
 }
-
-export default App;

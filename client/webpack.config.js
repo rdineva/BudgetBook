@@ -9,10 +9,12 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
   },
   mode: IS_PRODUCTION ? 'production' : 'development',
   devtool: IS_PRODUCTION ? '' : 'inline-source-map',
   devServer: {
+    historyApiFallback: true,
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
     port: 9000,
@@ -42,6 +44,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'React Playground',
       filename: 'index.html',
+      template: 'src/index.ejs',
     }),
   ],
 };
