@@ -10,12 +10,18 @@ interface Props {
 
 const useStyles = makeStyles({
   form: {
-    textAlign: 'center',
-    marginLeft: '2px',
+    textAlign: 'left',
+    marginLeft: '20px',
   },
   button: {
-    marginTop: '10px',
+    marginTop: '20px',
   },
+  category: {
+    marginBottom: '30px',
+  },
+  inputField: {
+    marginRight: '10px',
+  }
 });
 
 export default function BudgetCreate(props: Props) {
@@ -102,19 +108,21 @@ export default function BudgetCreate(props: Props) {
 
   for (const cat in contentJSON) {
     formContent.push( 
-      <div id={cat} >
+      <div id={cat} className={classes.category}>
         <h4>{cat}</h4>
         {
           Object.keys(contentJSON[cat]).map(subCat => (<TextField
             name={subCat}
+            className={classes.inputField}
             margin="normal"
             label={subCat}
             type="number"
-            value={contentJSON[cat][subCat]}
+            defaultValue={contentJSON[cat][subCat]}
             onChange={(event) => {
-              contentJSON[cat][subCat] = event.target.value;
-              console.log( event.target);
-              setContent(contentJSON);
+              contentJSON[cat][subCat] = Number(event.target.value);
+              console.log(event.target.value);
+              // setContent(contentJSON);
+              console.log(contentJSON);
             }}
           />))
         }
