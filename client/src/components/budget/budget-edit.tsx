@@ -88,7 +88,7 @@ export default function BudgetEditComponent({ onButtonClick, budget, actionType}
           color="inherit"
           onClick={() => {
             const body = {
-              name: name,
+              name: budget.name,
               content: budget.content,
               id: budget.id
             };

@@ -33,6 +33,7 @@ export function loadBudgets() {
     dispatch(actions.loadBudgets.request);
     try {
       const budgets = await httpService.get('budgets');
+      console.log(budgets)
       dispatch(actions.loadBudgets.success(budgets));
     } catch (error) {
       dispatch(actions.loadBudgets.failure);

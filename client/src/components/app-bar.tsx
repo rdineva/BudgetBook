@@ -88,17 +88,17 @@ export default function CustomAppBar() {
               onClick={() => onButtonClick('/')}
               className={classes.title}
             >
-Начало
+Home
             </Button>
           </Typography>
           <Typography
             variant="h6"
           >
             <Button
-              onClick={() => onButtonClick('/budgets')}
+              onClick={() => onButtonClick('/budgets/list')}
               className={classes.title}
             >
-Бюджети
+Budgets
             </Button>
           </Typography>
           {redirect}
@@ -107,7 +107,7 @@ export default function CustomAppBar() {
             color="inherit"
             onClick={() => onButtonClick('/budgets/create')}
           >
-Създай
+Create Budget
           </Button>
         </Toolbar>
       </AppBar>
