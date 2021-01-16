@@ -27,7 +27,6 @@ const useStyles = makeStyles({
 
 export default function BudgetEditComponent({ onButtonClick, budget, actionType}: Props) {
   const classes = useStyles({});
-  const [name, setName] = useState('');
   const [onEditedRedirect, setOnEditedRedirect] = useState(null);
 
   if (budget && !onEditedRedirect) {
@@ -74,7 +73,7 @@ export default function BudgetEditComponent({ onButtonClick, budget, actionType}
           key="name"
           placeholder="Enter name..."
           defaultValue={budget.name || ''}
-          onChange={(event) => setName(event.target.value)}
+          onChange={(event) => budget.name = event.target.value}
         />
       </div>
 
@@ -88,7 +87,7 @@ export default function BudgetEditComponent({ onButtonClick, budget, actionType}
           color="inherit"
           onClick={() => {
             const body = {
-              name: name,
+              name: budget.name,
               content: budget.content,
               id: budget.id
             };

@@ -18,9 +18,6 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   menuButton: {
     marginRight: theme.spacing(2),
   },
-  BeenHereIcon: {
-    marginRight: theme.spacing(1),
-  },
   title: {
     flexGrow: 1,
     marginRight: '10px',
@@ -60,6 +57,14 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
       width: 200,
     },
   },
+  rightMenu: {
+    display: 'flex',
+    alignItems: 'baseline',
+  },
+  menu: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  }
 }));
 
 export default function CustomAppBar() {
@@ -80,17 +85,7 @@ export default function CustomAppBar() {
         position="static"
         color="default"
       >
-        <Toolbar>
-          <Typography
-            variant="h6"
-          >
-            <Button
-              onClick={() => onButtonClick('/')}
-              className={classes.title}
-            >
-Начало
-            </Button>
-          </Typography>
+        <Toolbar className={classes.menu}>
           <Typography
             variant="h6"
           >
@@ -98,17 +93,34 @@ export default function CustomAppBar() {
               onClick={() => onButtonClick('/budgets')}
               className={classes.title}
             >
-Бюджети
+BudgetBook
             </Button>
           </Typography>
-          {redirect}
-          <Button
-            size="large"
-            color="inherit"
-            onClick={() => onButtonClick('/budgets/create')}
-          >
-Създай
-          </Button>
+          <div className={classes.rightMenu}>
+            <Typography
+              variant="h6"
+            >
+              <Button
+                onClick={() => onButtonClick('/budgets')}
+                className={classes.title}
+              >
+  Budgets
+              </Button>
+            </Typography>
+            {redirect}
+            <Typography
+              variant="h6"
+            >
+              <Button
+                size="large"
+                color="inherit"
+                className={classes.title}
+                onClick={() => onButtonClick('/budgets/create')}
+              >
+    Create
+              </Button>
+            </Typography>
+          </div>
         </Toolbar>
       </AppBar>
     </div>

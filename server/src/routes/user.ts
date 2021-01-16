@@ -2,12 +2,10 @@ import * as express from 'express';
 import { Request, Response } from 'express-serve-static-core';
 import UserController from '../controllers/user';
 import getConnection from '../middleware/connection';
-import { IGetUserAuthInfoRequest } from '../userRequest';
-var passport = require('passport');
 
 const user = express.Router({ mergeParams: true });
 
-const getuserController = (req: Request, res: Response, next: () => void): void => {
+export const getUserController = (req: Request, res: Response, next: () => void): void => {
   const { connection } = res.locals;
   const userController = new UserController(connection);
   res.locals.userController = userController;
@@ -15,7 +13,7 @@ const getuserController = (req: Request, res: Response, next: () => void): void 
 };
 
 user.use(getConnection);
-user.use(getuserController);
+user.use(getUserController);
 
 user.get('/:userId', async (req: Request, res: Response) => {
   const { userController } = res.locals;
@@ -24,13 +22,6 @@ user.get('/:userId', async (req: Request, res: Response) => {
   res.json(user);
 });
 
-user.post('/register', 
-  passport.authenticate('local', { failureRedirect: '/register' }),
-  function(req: Request, res: Response) {
-    console.log(res)
-    // res.redirect('/');
-  });
-
 user.delete('/:userId', async (req: Request, res: Response) => {
   const { userController } = res.locals;
   const { userId } = req.params;
@@ -38,12 +29,12 @@ user.delete('/:userId', async (req: Request, res: Response) => {
   res.json(`User with id = ${userId} was successfully deleted.`);
 });
 
-user.post('/', async (req: Request, res: Response) => {
+user.post('/register', async (req: Request, res: Response) => {
   const { userController } = res.locals;
   const { body } = req;
-  const newuser = await userController.create(body);
-  console.log(`Created new user with name: ${newuser.name}`);
-  res.json(newuser);
+  const newUser = await userController.create(body);
+  console.log(`Created new user with username: ${newUser.username}`);
+  res.json(newUser);
 });
 
 user.put('/:userId', async (req: Request, res: Response) => {
