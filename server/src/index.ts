@@ -14,15 +14,10 @@ var bodyParser = require('body-parser');
 
 import cors = require('cors');
 const app = express();
-const PORT = 3000;
+const PORT = 3001;
 
 app.use(cors());
 app.use(express.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
-app.use(bodyParser.json());
-
 
 app.use('/', root);
 app.use('/users', user);

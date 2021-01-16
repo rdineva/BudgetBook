@@ -7,18 +7,13 @@ import { RouteComponentProps } from 'react-router';
 
 export default function BudgetEdit(props: RouteComponentProps<{ id: string }>) {
   const id = props.match.params.id;
-  console.log(id)
-  const selectedBudget = useAppState(state => {
-    console.log(state.budgets.selectedBudget)
-    
-    return state.budgets.selectedBudget});
+
+  const selectedBudget = useAppState(state => state.budgets.selectedBudget);
   const dispatch = useDispatch();
-  // const editedBudget = useAppState((state) => state.budgets.editedBudget);
 
   useEffect(() => {
     dispatch(selectBudget(id));
   }, [id]);
-
 
   function onEditClick(body: any) {
     dispatch(editBudget(body));

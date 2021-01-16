@@ -64,7 +64,7 @@ export function editBudget(data: any) {
   return async (dispatch: ThunkDispatch<any, any, any>) => {
     dispatch(actions.editBudget.request);
     try {
-      const editedBudget: Budget = await httpService.put('budgets/', data);
+      const editedBudget: Budget = await httpService.put(`budgets/${data.id}`, data);
 
       dispatch(actions.editBudget.success(editedBudget));
     } catch (error) {

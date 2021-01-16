@@ -1,7 +1,7 @@
 import { ThunkDispatch } from 'redux-thunk';
 import { createAsyncAction, ActionType, createStandardAction } from 'typesafe-actions';
 import { User } from '../../entities/user';
-import { httpService } from '../../services/http';
+import httpService from '../../services/http';
 
 export const actions = {
   selectUser: createStandardAction(
@@ -45,16 +45,7 @@ export function createUser(data: any) {
   return async (dispatch: ThunkDispatch<any, any, any>) => {
     dispatch(actions.createUser.request);
     try {
-      const newUser: User = await httpService.post('users/register', data, {
-        mode: 'no-cors',
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Accept': 'application/json',
-          // 'Content-Type': 'application/json',
-          'Access-Control-Request-Headers': '*',
-          'Access-Control-Request-Method': '*',
-        },
-      });
+      const newUser: User = await httpService.post('users/register', data);
 
       dispatch(actions.createUser.success(newUser));
     } catch (error) {
