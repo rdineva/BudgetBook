@@ -19,6 +19,24 @@ class UserController extends BaseController<User> {
 
       return user.budgets;
   }
+
+  public async findByUsername(username): Promise<User | null> {
+    const user = await this.repository
+      .createQueryBuilder('user')
+      .where('user.username = :username', { username })
+      .getOne();
+
+    return user;
+  };
+
+  public async findById(id: string): Promise<User | null> {
+    const user = await this.repository
+      .createQueryBuilder('user')
+      .where('user.id = :id', { id })
+      .getOne();
+
+    return user;
+  };
 }
 
 export default UserController;

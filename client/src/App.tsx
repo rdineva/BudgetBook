@@ -8,6 +8,7 @@ import CustomAppBar from './components/app-bar';
 import BudgetCreate from './containers/budget/budget-create';
 import rootReducer from './store';
 import BudgetEdit from './containers/budget/budget-edit';
+import { Register } from './containers/user/register';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
@@ -20,6 +21,7 @@ export default function App() {
         <Switch>
           <Route path="/budgets/create" exact component={BudgetCreate} />
           <Route path="/budgets/:id/edit" exact component={BudgetEdit} />
+          <Route path="/users/register" exact component={Register} />
         </Switch>
       </BrowserRouter>
     </Provider>

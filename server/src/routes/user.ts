@@ -2,6 +2,8 @@ import * as express from 'express';
 import { Request, Response } from 'express-serve-static-core';
 import UserController from '../controllers/user';
 import getConnection from '../middleware/connection';
+import { IGetUserAuthInfoRequest } from '../userRequest';
+var passport = require('passport');
 
 const user = express.Router({ mergeParams: true });
 
@@ -21,6 +23,13 @@ user.get('/:userId', async (req: Request, res: Response) => {
   const user = await userController.getById(userId);
   res.json(user);
 });
+
+user.post('/register', 
+  passport.authenticate('local', { failureRedirect: '/register' }),
+  function(req: Request, res: Response) {
+    console.log(res)
+    // res.redirect('/');
+  });
 
 user.delete('/:userId', async (req: Request, res: Response) => {
   const { userController } = res.locals;

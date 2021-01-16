@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import budgetsReducer from './budgets/reducer';
+import usersReducer from './users/reducer';
 
 const rootReducer = combineReducers({
-  budgets: budgetsReducer
+  budgets: budgetsReducer,
+  users: usersReducer
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

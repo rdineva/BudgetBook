@@ -56,7 +56,6 @@ export default function BudgetEditComponent(props: Props) {
        "Electricity":0,
        "Water":0,
        "Gas":0,
-       "Trash":0,
        "TV":0,
        "Internet":0,
        "Phone":0
@@ -135,11 +134,11 @@ export default function BudgetEditComponent(props: Props) {
         <TextField
           name="name"
           margin="normal"
-          label="Име"
+          label="name"
           type="text"
           id="name"
           key="name"
-          placeholder="Въведи име..."
+          placeholder="Enter name..."
           defaultValue={props.budget.name}
           onChange={(event) => setName(event.target.value)}
         />
@@ -158,11 +157,13 @@ export default function BudgetEditComponent(props: Props) {
               name: name,
               content: contentJSON
             };
+            console.log(props)
 
             props.onButtonClick(body);
           }}
         >
       {props.actionType}
+Create
         </Button>
       </div>
     </div>
