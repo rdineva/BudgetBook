@@ -90,16 +90,6 @@ export default function CustomAppBar() {
             variant="h6"
           >
             <Button
-              onClick={() => onButtonClick('/')}
-              className={classes.title}
-            >
-Home
-            </Button>
-          </Typography>
-          <Typography
-            variant="h6"
-          >
-            <Button
               onClick={() => onButtonClick('/budgets/list')}
               className={classes.title}
             >
