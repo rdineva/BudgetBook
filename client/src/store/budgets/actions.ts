@@ -1,7 +1,7 @@
 import { ThunkDispatch } from 'redux-thunk';
 import { createAsyncAction, ActionType, createStandardAction } from 'typesafe-actions';
 import { Budget } from '../../entities/budget';
-import { httpService } from '../../services/http';
+import httpService from '../../services/http';
 
 export const actions = {
   selectBudget: createStandardAction(
@@ -45,16 +45,7 @@ export function createBudget(data: any) {
   return async (dispatch: ThunkDispatch<any, any, any>) => {
     dispatch(actions.createBudget.request);
     try {
-      const newBudget: Budget = await httpService.post('budgets/', data, {
-        mode: 'no-cors',
-        headers: {
-          // 'Access-Control-Allow-Origin': '*',
-          'Accept': 'application/json',
-          // 'Content-Type': 'application/json',
-          // 'Access-Control-Request-Headers': '*',
-          // 'Access-Control-Request-Method': '*',
-        },
-      });
+      const newBudget: Budget = await httpService.post('budgets/', data);
 
       dispatch(actions.createBudget.success(newBudget));
     } catch (error) {

@@ -1,15 +1,20 @@
 type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'http://localhost:3001';
 
 class HttpService {
   private async sendHttpRequest(path: string, method: HTTPMethod, data?: any, options?: any): Promise<any> {
     let requestOptions = { method, ...options };
 
     if (data) {
-      requestOptions = { ...requestOptions, body: data };
+      requestOptions = {
+        ...requestOptions,
+        mode: 'cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: data ? JSON.stringify(data) : null,
+      };      
     }
-    console.log(requestOptions)
+
     const response = await window.fetch(`${API_URL}/${path}`, requestOptions);
     return response.json();
   }
@@ -31,4 +36,4 @@ class HttpService {
   }
 }
 
-export const httpService = new HttpService();
+export default new HttpService();
