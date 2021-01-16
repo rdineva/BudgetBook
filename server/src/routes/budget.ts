@@ -30,13 +30,12 @@ budget.delete('/:budgetId', async (req: Request, res: Response) => {
 });
 
 budget.post('/', async (req: Request, res: Response) => {
-  console.log(req.body)
-  console.log(req.method)
   const { budgetController } = res.locals;
   const { body } = req;
-  // const newBudget = await budgetController.create(body);
-  // console.log(`Created new budget with name: ${newBudget.name}`);
-  // res.json(newBudget);
+  const newBudget = await budgetController.create(body);
+  console.log(newBudget)
+  console.log(`Created new budget with name: ${newBudget.name}`);
+  res.json(newBudget);
 });
 
 budget.put('/:budgetId', async (req: Request, res: Response) => {

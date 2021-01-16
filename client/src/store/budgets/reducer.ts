@@ -30,8 +30,18 @@ function createdBudget(state: Budget = null, action: BudgetsAction): Budget {
   }
 }
 
+function editedBudget(state: Budget = null, action: BudgetsAction): Budget {
+  switch (action.type) {
+    case getType(actions.editBudget.success):
+      return action.payload;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   selectedBudget,
   budgets,
   createdBudget,
+  editedBudget,
 });

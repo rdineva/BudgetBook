@@ -20,6 +20,12 @@ export const actions = {
     '@budgets/createBudgetFailure',
   )
     <void, Budget, Error>(),
+    editBudget: createAsyncAction(
+      '@budgets/editBudgetRequest',
+      '@budgets/editBudgetSuccess',
+      '@budgets/editBudgetFailure',
+    )
+      <void, Budget, Error>(),
 };
 
 export function loadBudgets() {
@@ -50,6 +56,19 @@ export function createBudget(data: any) {
       dispatch(actions.createBudget.success(newBudget));
     } catch (error) {
       dispatch(actions.createBudget.failure);
+    }
+  };
+}
+
+export function editBudget(data: any) {
+  return async (dispatch: ThunkDispatch<any, any, any>) => {
+    dispatch(actions.editBudget.request);
+    try {
+      const editedBudget: Budget = await httpService.put('budgets/', data);
+
+      dispatch(actions.editBudget.success(editedBudget));
+    } catch (error) {
+      dispatch(actions.editBudget.failure);
     }
   };
 }

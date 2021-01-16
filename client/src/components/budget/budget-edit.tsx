@@ -4,8 +4,9 @@ import { Redirect } from 'react-router';
 import { Budget } from '../../entities/budget';
 
 interface Props {
-    onCreateClick(body: any): void;
-    createdBudget: Budget;
+  onButtonClick(body: any): void;
+  budget: Budget;
+  actionType: string;
 }
 
 const useStyles = makeStyles({
@@ -24,14 +25,13 @@ const useStyles = makeStyles({
   }
 });
 
-export default function BudgetCreate(props: Props) {
+export default function BudgetEditComponent(props: Props) {
   const classes = useStyles({});
   const [name, setName] = useState('');
-  const [content, setContent] = useState({});
-  const [onCreatedRedirect, setOnCreatedRedirect] = useState(null);
+  const [onEditedRedirect, setOnEditedRedirect] = useState(null);
 
-  if (props.createdBudget && !onCreatedRedirect) {
-    setOnCreatedRedirect(<Redirect to={`/budgets/${props.createdBudget.id}`} push />);
+  if (props.budget && !onEditedRedirect) {
+    setOnEditedRedirect(<Redirect to={`/budgets/${props.budget.id}`} push />);
   }
 
   let contentJSON: object = {
@@ -103,7 +103,6 @@ export default function BudgetCreate(props: Props) {
     }
   };
 
-
   let formContent: JSX.Element[] = [];
 
   for (const cat in contentJSON) {
@@ -117,12 +116,10 @@ export default function BudgetCreate(props: Props) {
             margin="normal"
             label={subCat}
             type="number"
+            key={subCat}
             defaultValue={contentJSON[cat][subCat]}
             onChange={(event) => {
               contentJSON[cat][subCat] = Number(event.target.value);
-              console.log(event.target.value);
-              // setContent(contentJSON);
-              console.log(contentJSON);
             }}
           />))
         }
@@ -130,10 +127,10 @@ export default function BudgetCreate(props: Props) {
     );
   }
 
-  return onCreatedRedirect || (
+  return (
   <div className={classes.form}>
     <div>
-      <h1>Създай Бюджет</h1>
+      <h1>Create Budget</h1>
       <div>
         <TextField
           name="name"
@@ -141,7 +138,9 @@ export default function BudgetCreate(props: Props) {
           label="Име"
           type="text"
           id="name"
+          key="name"
           placeholder="Въведи име..."
+          defaultValue={props.budget.name}
           onChange={(event) => setName(event.target.value)}
         />
       </div>
@@ -156,13 +155,14 @@ export default function BudgetCreate(props: Props) {
           color="inherit"
           onClick={() => {
             const body = {
-              name: name
+              name: name,
+              content: contentJSON
             };
 
-            props.onCreateClick(body);
+            props.onButtonClick(body);
           }}
         >
-Създай
+      {props.actionType}
         </Button>
       </div>
     </div>

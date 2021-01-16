@@ -5,8 +5,9 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import CustomAppBar from './components/app-bar';
-import { BudgetCreate } from './containers/budget/budget-create';
+import BudgetCreate from './containers/budget/budget-create';
 import rootReducer from './store';
+import BudgetEdit from './containers/budget/budget-edit';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
@@ -18,6 +19,7 @@ export default function App() {
         <CustomAppBar />
         <Switch>
           <Route path="/budgets/create" exact component={BudgetCreate} />
+          <Route path="/budgets/:id/edit" exact component={BudgetEdit} />
         </Switch>
       </BrowserRouter>
     </Provider>
