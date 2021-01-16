@@ -156,7 +156,6 @@ export default function BudgetCreateComponent(props: Props) {
               name: name,
               content: contentJSON
             };
-            console.log(props)
 
             props.onButtonClick(body);
           }}

@@ -46,4 +46,10 @@ budget.put('/:budgetId', async (req: Request, res: Response) => {
   res.json(`Update budget with id = ${budgetId}`);
 });
 
+budget.get('/', async (req: Request, res: Response) => {
+  const { budgetController } = res.locals;
+  const budget = await budgetController.getAll();
+  res.json(budget);
+});
+
 export default budget;

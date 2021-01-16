@@ -25,6 +25,12 @@ class BaseController<T> {
   public update(id: number, entity: T): Promise<UpdateResult> {
 	  return this.repository.update(id, entity);
   }
+
+  public getAll(): Promise<T[]> {
+	  return this.repository
+	    .createQueryBuilder('entity')
+		  .getMany();
+  }
 }
 
 export default BaseController;
