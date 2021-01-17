@@ -31,14 +31,8 @@ export default function BudgetCreateComponent({ budget, currencies, onBudgetCrea
   const classes = useStyles({});
   const [name, setName] = useState('');
   const [currency, setCurrency] = useState('EUR');
-  const [onCreatedRedirect, setOnCreatedRedirect] = useState(null);
-
-  if (budget && !onCreatedRedirect) {
-    setOnCreatedRedirect(<Redirect to={`/budgets/${budget.id}/view`} push />);
-  }
 
   let contentJSON = getBudgetContent();
-
   let formContent: JSX.Element[] = [];
 
   for (const cat in contentJSON) {
@@ -67,7 +61,7 @@ export default function BudgetCreateComponent({ budget, currencies, onBudgetCrea
     setCurrency(value);
   }
 
-  return onCreatedRedirect || (currencies && (
+  return currencies && (
   <div className={classes.form}>
     <div>
       <h1>Create Budget</h1>
@@ -109,5 +103,5 @@ export default function BudgetCreateComponent({ budget, currencies, onBudgetCrea
       </div>
     </div>
   </div>
-  ));
+  );
 }
