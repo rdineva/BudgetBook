@@ -39,9 +39,19 @@ function editedBudget(state: Budget = null, action: BudgetsAction): Budget {
   }
 }
 
+function currencies(state: string[] = [], action: BudgetsAction): string[] {
+  switch (action.type) {
+    case getType(actions.getCurrencies):
+      return action.payload;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   selectedBudget,
   budgets,
   createdBudget,
   editedBudget,
+  currencies,
 });

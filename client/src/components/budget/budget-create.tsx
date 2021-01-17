@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, makeStyles, TextField } from '@material-ui/core';
+import { Button, makeStyles, TextField, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { Redirect } from 'react-router';
 import { Budget } from '../../entities/budget';
 
@@ -7,6 +7,7 @@ interface Props {
   onButtonClick(body: any): void;
   budget: Budget;
   actionType: string;
+  currencies: string[];
 }
 
 const useStyles = makeStyles({
@@ -126,7 +127,7 @@ export default function BudgetCreateComponent(props: Props) {
     );
   }
 
-  return (
+  return props.currencies && (
   <div className={classes.form}>
     <div>
       <h1>{props.actionType} Budget</h1>
@@ -141,6 +142,17 @@ export default function BudgetCreateComponent(props: Props) {
           placeholder="Enter name..."
           onChange={(event) => setName(event.target.value)}
         />
+        <InputLabel id="currency-label">Currency</InputLabel>
+        <Select
+          labelId="currency-label"
+          id="currency"
+          // onChange={}
+        >
+          {console.log(props.currencies)}
+          <MenuItem value={10}>Ten</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
+          <MenuItem value={30}>Thirty</MenuItem>
+        </Select>
       </div>
 
       {formContent}

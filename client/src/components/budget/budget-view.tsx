@@ -64,6 +64,7 @@ export default function BudgetViewComponent({ budget }: Props) {
 
   return budget && (
     <div className={classes.budgetWrapper}>
+      {/* <button onClick=""></button> */}
       <h1 className={classes.pageHeading}>{budget.name}</h1>
       {budgetContent}
     </div>

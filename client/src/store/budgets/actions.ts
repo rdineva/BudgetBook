@@ -8,6 +8,10 @@ export const actions = {
     '@budgets/selectBudget',
   )
     <Budget>(),
+  getCurrencies: createStandardAction(
+    '@budgets/getCurrencies',
+  )
+    <Array<string>>(),
   loadBudgets: createAsyncAction(
     '@budgets/loadBudgetsRequest',
     '@budgets/loadBudgetsSuccess',
@@ -71,6 +75,13 @@ export function editBudget(data: any) {
     } catch (error) {
       dispatch(actions.editBudget.failure);
     }
+  };
+}
+
+export function getCurrencies() {
+  return async (dispatch: ThunkDispatch<any, any, any>) => {
+    const currencies: string[] = await httpService.get(`budgets/currencies`);
+    dispatch(actions.getCurrencies(currencies));
   };
 }
 

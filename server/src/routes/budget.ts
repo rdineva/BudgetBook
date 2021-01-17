@@ -2,6 +2,8 @@ import * as express from 'express';
 import { Request, Response } from 'express-serve-static-core';
 import BudgetController from '../controllers/budget';
 import getConnection from '../middleware/connection';
+import fetch from 'node-fetch';
+import * as _ from 'lodash';
 
 const budget = express.Router({ mergeParams: true });
 
@@ -20,6 +22,10 @@ budget.get('/:budgetId', async (req: Request, res: Response) => {
   const { budgetId } = req.params;
   const budget = await budgetController.getById(budgetId);
   res.json(budget);
+
+  fetch('https://api.exchangeratesapi.io/latest')
+    .then((resp) => resp.json())
+    .then((data) => console.log(data))
 });
 
 budget.delete('/:budgetId', async (req: Request, res: Response) => {
@@ -44,6 +50,15 @@ budget.put('/:budgetId', async (req: Request, res: Response) => {
   const { budgetId } = req.params;
   await budgetController.update(budgetId, body);
   res.json(`Update budget with id = ${budgetId}`);
+});
+
+budget.get('/currencies', async (req: Request, res: Response) => {
+  console.log('works');
+  // fetch('https://api.exchangeratesapi.io/latest')
+  //   .then((resp) => resp.json())
+  //   .then((data) => _.map(data.rates, (rate) => console.log(rate)));
+
+  // res.json(budget);
 });
 
 budget.get('/', async (req: Request, res: Response) => {

@@ -3,11 +3,6 @@ import {
 } from 'typeorm';
 import { User } from './user';
 
-export enum BudgetType {
-    TEMPLATE = "template",
-    BUDGET_ENTRY = "budget entry",
-}
-
 @Entity()
 export class Budget extends BaseEntity {
 
@@ -23,12 +18,8 @@ export class Budget extends BaseEntity {
 	@Column({ type: 'json'})
 	content: JSON;
 
-	@Column({
-        type: "enum",
-        enum: BudgetType,
-        default: BudgetType.BUDGET_ENTRY
-    })
-	type: BudgetType;
+	@Column({default: ''})
+	currency: string;
 
 	@ManyToOne(() => User, user => user.budgets)
 	user: User;
