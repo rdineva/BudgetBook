@@ -21,23 +21,40 @@ const useStyles = makeStyles({
   subCat: {
     marginBottom: '10px',
     fontWeight: 'bold',
-    display: 'inline-block',
+    display: 'inline-flex',
     verticalAlign: 'top',
-    width: '220px',
-    marginRight: '20px'
+    width: '250px',
+    marginRight: '50px',
+    padding: '9px',
+    borderRadius: '5px',
+    border: '1px solid black'
   },
   value: {
     fontWeight: 'normal',
     display: 'inline-block',
     marginRight: '20px',
+    marginLeft: 'auto',
   },
   convertedCurrency: {
-    width: '50px',
+    width: '70px',
     display: 'inline-block',
     fontWeight: 'normal',
-    color: 'blue'
+    color: 'blue',
+  },
+  warning: {
+    color: 'blue',
+    minHeight: '50px',
+    textAlign: 'center',
+    opacity: '0',
+    transition: '0.5s opacity ease-in'
+  },
+  button: {
+    marginTop: '20px',
+    marginRight: '20px',
   }
 });
+
+
 
 export default function BudgetViewComponent({ budget }: Props) {
   const classes = useStyles({});
@@ -53,7 +70,7 @@ export default function BudgetViewComponent({ budget }: Props) {
             Object.keys(budget.content[cat]).map(subCat => (
              <p className={classes.subCat}>{subCat}: 
               <span className={classes.value}>{budget.content[cat][subCat]}</span> 
-              <span className={classes.convertedCurrency}>1000(conv)</span> 
+              <span className={classes.convertedCurrency}></span> 
              </p>
             ))
           }
@@ -62,10 +79,43 @@ export default function BudgetViewComponent({ budget }: Props) {
     }
   }
 
+  function convertIntoCurrency() {
+    let budgetValues: HTMLCollection = document.getElementsByClassName(classes.value);
+    let convertedValues: HTMLCollection = document.getElementsByClassName(classes.convertedCurrency);
+    let currencyRate: number = 1.2;
+
+    for (let i = 0; i < budgetValues.length; i++) {
+      const valueWrapper = budgetValues[i];
+      const catValue: number = Number(valueWrapper.innerHTML);
+      const convertedValue: number = currencyRate * catValue;
+      let convertedValueWrapper = convertedValues[i];
+      convertedValueWrapper.innerHTML = String(convertedValue);
+    }
+
+    let warning: HTMLElement = (document.getElementsByClassName(classes.warning)[0] as HTMLElement);
+    warning.style.opacity = '1';
+  }
+
   return budget && (
     <div className={classes.budgetWrapper}>
-      {/* <button onClick=""></button> */}
+      <Button
+          className={classes.button}
+          variant="outlined"
+          color="inherit"
+          onClick={convertIntoCurrency}
+          >
+            Convert
+        </Button>
+        <Button
+          className={classes.button}
+          variant="outlined"
+          color="inherit"
+          href={"/budgets/" + budget.id + "/edit"}
+          >
+            Edit Budget
+        </Button>
       <h1 className={classes.pageHeading}>{budget.name}</h1>
+      <p className={classes.warning}>Blue values represent converted currency values</p>
       {budgetContent}
     </div>
   );

@@ -16,6 +16,7 @@ const useStyles = makeStyles({
   },
   button: {
     marginTop: '20px',
+    marginRight: '20px',
   },
   category: {
     marginBottom: '30px',
@@ -96,6 +97,14 @@ export default function BudgetEditComponent({ onButtonClick, budget, actionType}
           }}
         >
           {actionType}
+        </Button>
+        <Button
+          className={classes.button}
+          variant="outlined"
+          color="inherit"
+          href={"/budgets/" + budget.id + "/view"}
+          >
+            View Budget
         </Button>
       </div>
     </div>
