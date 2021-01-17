@@ -90,7 +90,7 @@ export default function CustomAppBar() {
             variant="h6"
           >
             <Button
-              onClick={() => onButtonClick('/budgets/list')}
+              onClick={() => onButtonClick('/')}
               className={classes.title}
             >
 BudgetBook
@@ -101,7 +101,7 @@ BudgetBook
               variant="h6"
             >
               <Button
-                onClick={() => onButtonClick('/budgets/list')}
+                onClick={() => onButtonClick('/')}
                 className={classes.title}
               >
   Budgets

@@ -42,7 +42,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: 'React Playground',
+      title: 'BudgetBook',
       filename: 'index.html',
       template: 'src/index.ejs',
     }),

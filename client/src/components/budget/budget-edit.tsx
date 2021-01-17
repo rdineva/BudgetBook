@@ -69,11 +69,9 @@ export default function BudgetEditComponent({ onButtonClick, budget, currencies,
       className={classes.button}
       variant="outlined"
       color="inherit"
-      // href={"/budgets/" + budget.id + "/"}
       onClick={() => {
         onDeleteClick(budget.id);
-        // window.location.href='/budgets/list';
-        setRedirect(<Redirect to={"/budgets/list"} push />)
+        setRedirect(<Redirect to={"/"} push />)
       }}
       >
        DELETE BUDGET

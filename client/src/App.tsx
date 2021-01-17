@@ -22,8 +22,8 @@ export default function App() {
         <Switch>
           <Route path="/budgets/create" exact component={BudgetCreate} />
           <Route path="/budgets/:id/edit" exact component={BudgetEdit} />
-          <Route path="/budgets/list" exact component={BudgetList} />
           <Route path="/budgets/:id/view" exact component={BudgetView} />
+          <Route path="/" exact component={BudgetList} />
         </Switch>
       </BrowserRouter>
     </Provider>
