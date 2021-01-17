@@ -24,7 +24,7 @@ budget.get('/currencies', async (req: Request, res: Response) => {
     .then((data) => {
       let currencies = [];
       _.reduce(data.rates, (_obj, _value, key) => currencies.push(key));
-      
+      currencies.push('EUR');
       res.json(currencies);
     });
 });

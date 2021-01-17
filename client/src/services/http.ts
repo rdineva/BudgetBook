@@ -6,9 +6,6 @@ class HttpService {
   private async sendHttpRequest(path: string, method: HTTPMethod, data?: any, options?: any): Promise<any> {
     let requestOptions = { method, ...options };
 
-    console.log(path);
-    console.log(data);
-    console.log(method);
     if (data) {
       requestOptions = {
         ...requestOptions,

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Button, makeStyles, TextField, InputLabel, Select, MenuItem } from '@material-ui/core';
+import { Button, makeStyles, TextField, InputLabel } from '@material-ui/core';
 import { Redirect } from 'react-router';
 import { Budget } from '../../entities/budget';
+import SelectCurrencies from './select-currencies';
 
 interface Props {
-  onButtonClick(body: any): void;
+  onBudgetCreate(body: any): void;
   budget: Budget;
-  actionType: string;
   currencies: string[];
 }
 
@@ -26,13 +26,14 @@ const useStyles = makeStyles({
   }
 });
 
-export default function BudgetCreateComponent(props: Props) {
+export default function BudgetCreateComponent({ budget, currencies, onBudgetCreate }: Props) {
   const classes = useStyles({});
   const [name, setName] = useState('');
+  const [currency, setCurrency] = useState('');
   const [onEditedRedirect, setOnEditedRedirect] = useState(null);
 
-  if (props.budget && !onEditedRedirect) {
-    setOnEditedRedirect(<Redirect to={`/budgets/${props.budget.id}`} push />);
+  if (budget && !onEditedRedirect) {
+    setOnEditedRedirect(<Redirect to={`/budgets/${budget.id}`} push />);
   }
 
   let contentJSON: object = {
@@ -127,10 +128,14 @@ export default function BudgetCreateComponent(props: Props) {
     );
   }
 
-  return props.currencies && (
+  const onCurrencyChange = (value: string) => {
+    setCurrency(value);
+  }
+
+  return currencies && (
   <div className={classes.form}>
     <div>
-      <h1>{props.actionType} Budget</h1>
+      <h1>Create Budget</h1>
       <div>
         <TextField
           name="name"
@@ -142,18 +147,9 @@ export default function BudgetCreateComponent(props: Props) {
           placeholder="Enter name..."
           onChange={(event) => setName(event.target.value)}
         />
-        <InputLabel id="currency-label">Currency</InputLabel>
-        <Select
-          labelId="currency-label"
-          id="currency"
-          // onChange={}
-        >
-          {console.log(props.currencies)}
-          <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
-        </Select>
       </div>
+
+      <SelectCurrencies currencies={currencies} onCurrencyChange={onCurrencyChange}></SelectCurrencies>
 
       {formContent}
 
@@ -166,13 +162,15 @@ export default function BudgetCreateComponent(props: Props) {
           onClick={() => {
             const body = {
               name: name,
-              content: contentJSON
+              content: contentJSON,
+              currency: currency
             };
 
-            props.onButtonClick(body);
+            console.log(body)
+            onBudgetCreate(body);
           }}
         >
-          {props.actionType}
+          Create
         </Button>
       </div>
     </div>
