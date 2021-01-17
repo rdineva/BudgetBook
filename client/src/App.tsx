@@ -10,7 +10,6 @@ import rootReducer from './store';
 import BudgetEdit from './containers/budget/budget-edit';
 import BudgetList from './containers/budget/budget-list';
 import BudgetView from './containers/budget/budget-view';
-import { Register } from './containers/user/register';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
@@ -25,7 +24,6 @@ export default function App() {
           <Route path="/budgets/:id/edit" exact component={BudgetEdit} />
           <Route path="/budgets/list" exact component={BudgetList} />
           <Route path="/budgets/:id/view" exact component={BudgetView} />
-          <Route path="/users/register" exact component={Register} />
         </Switch>
       </BrowserRouter>
     </Provider>

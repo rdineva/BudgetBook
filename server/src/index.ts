@@ -2,7 +2,6 @@ import * as express from 'express';
 import { createConnection } from 'typeorm';
 import "reflect-metadata";
 import budget from './routes/budget';
-import user from './routes/user';
 import root from './routes/root';
 
 import cors = require('cors');
@@ -13,7 +12,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/', root);
-app.use('/users', user);
 app.use('/budgets', budget);
 
 createConnection().then(() => {
