@@ -8,7 +8,7 @@ export default function BudgetCreate() {
   const dispatch = useDispatch();
   const createdBudget = useAppState((state) => state.budgets.createdBudget);
   
-  function onCreateClick(body: any) {
+  function onBudgetCreate(body: any) {
     dispatch(createBudget(body));
   }
 
@@ -20,9 +20,8 @@ export default function BudgetCreate() {
   
   return (
     <BudgetCreateComponent
-      onButtonClick={onCreateClick}
+      onBudgetCreate={onBudgetCreate}
       budget={createdBudget}
-      actionType={'Create'}
       currencies={currencies}
     />
   );
