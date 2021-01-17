@@ -16,7 +16,8 @@ export default function BudgetCreate() {
 
   useEffect(() => {
     dispatch(getCurrencies());
-  });
+  }, []);
+  
   return (
     <BudgetCreateComponent
       onButtonClick={onCreateClick}

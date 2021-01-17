@@ -17,6 +17,18 @@ const getBudgetController = (req: Request, res: Response, next: () => void): voi
 budget.use(getConnection);
 budget.use(getBudgetController);
 
+
+budget.get('/currencies', async (req: Request, res: Response) => {
+  fetch('https://api.exchangeratesapi.io/latest')
+    .then((resp) => resp.json())
+    .then((data) => {
+      let currencies = [];
+      _.reduce(data.rates, (_obj, _value, key) => currencies.push(key));
+      
+      res.json(currencies);
+    });
+});
+
 budget.get('/:budgetId', async (req: Request, res: Response) => {
   const { budgetController } = res.locals;
   const { budgetId } = req.params;
@@ -50,15 +62,6 @@ budget.put('/:budgetId', async (req: Request, res: Response) => {
   const { budgetId } = req.params;
   await budgetController.update(budgetId, body);
   res.json(`Update budget with id = ${budgetId}`);
-});
-
-budget.get('/currencies', async (req: Request, res: Response) => {
-  console.log('works');
-  // fetch('https://api.exchangeratesapi.io/latest')
-  //   .then((resp) => resp.json())
-  //   .then((data) => _.map(data.rates, (rate) => console.log(rate)));
-
-  // res.json(budget);
 });
 
 budget.get('/', async (req: Request, res: Response) => {
