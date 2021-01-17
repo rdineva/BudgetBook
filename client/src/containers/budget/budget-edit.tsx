@@ -7,7 +7,6 @@ import { RouteComponentProps } from 'react-router';
 
 export default function BudgetEdit(props: RouteComponentProps<{ id: string }>) {
   const id = props.match.params.id;
-
   const selectedBudget = useAppState(state => state.budgets.selectedBudget);
   const dispatch = useDispatch();
 
@@ -22,13 +21,13 @@ export default function BudgetEdit(props: RouteComponentProps<{ id: string }>) {
   const currencies = useAppState(state => state.budgets.currencies);
 
   useEffect(() => {
-    dispatch(getCurrencies()); 
+    dispatch(getCurrencies());
   }, []);
 
   return (
     <BudgetEditComponent
       onButtonClick={onEditClick}
-      budget={selectedBudget[0]}
+      budget={selectedBudget}
       currencies={currencies}
     />
   );

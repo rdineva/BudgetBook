@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, makeStyles, TextField, InputLabel } from '@material-ui/core';
+import { Button, makeStyles, TextField } from '@material-ui/core';
 import { Redirect } from 'react-router';
 import { Budget } from '../../entities/budget';
 import SelectCurrencies from './select-currencies';

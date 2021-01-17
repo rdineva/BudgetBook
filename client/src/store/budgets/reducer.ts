@@ -2,8 +2,9 @@ import { combineReducers } from 'redux';
 import { getType } from 'typesafe-actions';
 import { BudgetsAction, actions } from './actions';
 import { Budget } from '../../entities/budget';
+import { BudgetCurrencyRates } from '../../entities/budget-currency-rates';
 
-function selectedBudget(state: {budget: Budget, currencyRates: JSON} = null, action: BudgetsAction): {budget: Budget, currencyRates: JSON} {
+function selectedBudget(state: BudgetCurrencyRates = null, action: BudgetsAction): BudgetCurrencyRates {
   switch (action.type) {
     case getType(actions.selectBudget):
       return action.payload;

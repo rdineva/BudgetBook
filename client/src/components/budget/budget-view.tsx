@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { Button, makeStyles, TextField } from '@material-ui/core';
-import { Redirect } from 'react-router';
-import { Budget } from '../../entities/budget';
+import React from 'react';
+import { Button, makeStyles } from '@material-ui/core';
 import SelectCurrencies from './select-currencies';
+import { BudgetCurrencyRates } from '../../entities/budget-currency-rates';
 
 interface Props {
-  selectedBudget: {budget: Budget, currencyRates: JSON};
+  selectedBudget: BudgetCurrencyRates;
   currencies: string[];
 }
 
@@ -53,10 +52,16 @@ const useStyles = makeStyles({
   button: {
     marginTop: '20px',
     marginRight: '20px',
+    marginLeft: 'auto',
+  },
+  options: {
+    display: 'flex',
+    alignItems: 'baseline',
+  },
+  currencyLine: {
+    marginRight: '20px',
   }
 });
-
-
 
 export default function BudgetViewComponent({ selectedBudget , currencies }: Props) {
   const classes = useStyles({});
@@ -83,12 +88,9 @@ export default function BudgetViewComponent({ selectedBudget , currencies }: Pro
     }
   }
 
-  function convertIntoCurrency(initialCurrency, futureCurrency) {
+  function convertIntoCurrency(futureCurrency) {
     let budgetValues: HTMLCollection = document.getElementsByClassName(classes.value);
     let convertedValues: HTMLCollection = document.getElementsByClassName(classes.convertedCurrency);
-    console.log(initialCurrency);
-    console.log(futureCurrency);
-
 
     let currencyRate: number = selectedBudget.currencyRates.rates[futureCurrency];
 
@@ -105,23 +107,15 @@ export default function BudgetViewComponent({ selectedBudget , currencies }: Pro
   }
 
   const onCurrencyChange = (value: string) => {
-    convertIntoCurrency(selectedBudget.budget.currency, value);
+    convertIntoCurrency(value);
   }
 
   return selectedBudget && (
     <div className={classes.budgetWrapper}>
-      <p>This budget is in {selectedBudget.budget.currency}</p>
-      <p>Select a currency to convert it to:</p>
+      <div className={classes.options}>
+        <p className={classes.currencyLine}>This budget is in <b>{selectedBudget.budget.currency}</b>. Select a currency to convert it to:</p>
 
-      <SelectCurrencies currencies={currencies} defaultValue={selectedBudget.budget.currency} onCurrencyChange={onCurrencyChange}></SelectCurrencies>
-      {/* <Button
-          className={classes.button}
-          variant="outlined"
-          color="inherit"
-          onClick={onCurrencyChange}
-          >
-            Convert
-        </Button> */}
+        <SelectCurrencies currencies={currencies.filter(currency => currency != selectedBudget.budget.currency)} defaultValue={selectedBudget.budget.currency} onCurrencyChange={onCurrencyChange}></SelectCurrencies>
         <Button
           className={classes.button}
           variant="outlined"
@@ -130,6 +124,7 @@ export default function BudgetViewComponent({ selectedBudget , currencies }: Pro
           >
             Edit Budget
         </Button>
+      </div>
       <h1 className={classes.pageHeading}>{selectedBudget.budget.name}</h1>
       <p className={classes.warning}>Blue values represent converted currency values</p>
       {budgetContent}

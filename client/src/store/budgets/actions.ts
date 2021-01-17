@@ -1,13 +1,14 @@
 import { ThunkDispatch } from 'redux-thunk';
 import { createAsyncAction, ActionType, createStandardAction } from 'typesafe-actions';
 import { Budget } from '../../entities/budget';
+import { BudgetCurrencyRates } from '../../entities/budget-currency-rates';
 import httpService from '../../services/http';
 
 export const actions = {
   selectBudget: createStandardAction(
     '@budgets/selectBudget',
   )
-    <{budget: Budget, currencyRates: JSON}>(),
+    <BudgetCurrencyRates>(),
   getCurrencies: createStandardAction(
     '@budgets/getCurrencies',
   )
@@ -47,7 +48,7 @@ export function loadBudgets() {
 
 export function selectBudget(id: string) {
   return async (dispatch: ThunkDispatch<any, any, any>) => {
-    const result: {budget: Budget, currencyRates: JSON} = await httpService.get(`budgets/${id}`);
+    const result: BudgetCurrencyRates = await httpService.get(`budgets/${id}`);
     dispatch(actions.selectBudget(result));
   };
 }

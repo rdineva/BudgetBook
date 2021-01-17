@@ -17,7 +17,6 @@ const getBudgetController = (req: Request, res: Response, next: () => void): voi
 budget.use(getConnection);
 budget.use(getBudgetController);
 
-
 budget.get('/currencies', async (req: Request, res: Response) => {
   fetch('https://api.exchangeratesapi.io/latest')
     .then((resp) => resp.json())

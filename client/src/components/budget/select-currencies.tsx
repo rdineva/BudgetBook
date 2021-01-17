@@ -1,6 +1,5 @@
 import { InputLabel, makeStyles, MenuItem, Select } from "@material-ui/core";
 import React, { useState } from "react";
-import BudgetCreate from "../../containers/budget/budget-create";
 
 interface Props {
   currencies: string[];
@@ -32,7 +31,6 @@ export default function SelectCurrencies({ currencies, defaultValue, onCurrencyC
 
   return (
     <div className={classes.container}>
-      <InputLabel id="currency-label">Currency</InputLabel>
       <Select
           labelId="currency-label"
           id="currency"
