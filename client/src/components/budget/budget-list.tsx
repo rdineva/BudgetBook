@@ -31,7 +31,6 @@ export default function BudgetListComponent(props: Props) {
 
   let listContent: JSX.Element[] = [];
 
-  console.log(props);
   for(const budget of props.budgets) {
       const budgetId = budget.id;
       const linkView = "/budgets/" + budgetId + "/view";

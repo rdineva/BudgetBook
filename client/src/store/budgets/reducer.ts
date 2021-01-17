@@ -2,9 +2,9 @@ import { combineReducers } from 'redux';
 import { getType } from 'typesafe-actions';
 import { BudgetsAction, actions } from './actions';
 import { Budget } from '../../entities/budget';
-import { BudgetCurrencyRates } from '../../entities/budget-currency-rates';
+import { CurrencyRates } from '../../entities/currency-rates';
 
-function selectedBudget(state: BudgetCurrencyRates = null, action: BudgetsAction): BudgetCurrencyRates {
+function selectedBudget(state: Budget = null, action: BudgetsAction): Budget {
   switch (action.type) {
     case getType(actions.selectBudget):
       return action.payload;
@@ -49,10 +49,20 @@ function currencies(state: string[] = [], action: BudgetsAction): string[] {
   }
 }
 
+function currencyRates(state: CurrencyRates = null, action: BudgetsAction): CurrencyRates {
+  switch (action.type) {
+    case getType(actions.getCurrencyRates):
+      return action.payload;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   selectedBudget,
   budgets,
   createdBudget,
   editedBudget,
   currencies,
+  currencyRates,
 });

@@ -3,5 +3,4 @@ export interface Budget {
     content: JSON;
     currency: string;
     name: string;
-    userId: string;
 }

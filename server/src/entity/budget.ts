@@ -1,7 +1,6 @@
 import {
-	Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne,
+	Entity, PrimaryGeneratedColumn, Column, BaseEntity,
 } from 'typeorm';
-import { User } from './user';
 
 @Entity()
 export class Budget extends BaseEntity {
@@ -20,7 +19,4 @@ export class Budget extends BaseEntity {
 
 	@Column({default: ''})
 	currency: string;
-
-	@ManyToOne(() => User, user => user.budgets)
-	user: User;
 }

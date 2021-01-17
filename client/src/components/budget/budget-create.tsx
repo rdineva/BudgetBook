@@ -3,6 +3,7 @@ import { Button, makeStyles, TextField } from '@material-ui/core';
 import { Redirect } from 'react-router';
 import { Budget } from '../../entities/budget';
 import SelectCurrencies from './select-currencies';
+import getBudgetContent from '../../entities/budget-content';
 
 interface Props {
   onBudgetCreate(body: any): void;
@@ -29,80 +30,14 @@ const useStyles = makeStyles({
 export default function BudgetCreateComponent({ budget, currencies, onBudgetCreate }: Props) {
   const classes = useStyles({});
   const [name, setName] = useState('');
-  const [currency, setCurrency] = useState('');
-  const [onEditedRedirect, setOnEditedRedirect] = useState(null);
+  const [currency, setCurrency] = useState('EUR');
+  const [onCreatedRedirect, setOnCreatedRedirect] = useState(null);
 
-  if (budget && !onEditedRedirect) {
-    setOnEditedRedirect(<Redirect to={`/budgets/${budget.id}`} push />);
+  if (budget && !onCreatedRedirect) {
+    setOnCreatedRedirect(<Redirect to={`/budgets/${budget.id}/view`} push />);
   }
 
-  let contentJSON: object = {
-    "Income":{
-       "Work":0,
-       "Passive income":1,
-       "Bonus":0
-    },
-    "Savings":{
-       "Emergency funds":0,
-       "Retirement fund":0,
-       "College fund":0
-    },
-    "Housing":{
-       "Mortgage or Rent":0,
-       "Second Mortgage":0,
-       "Real Estate Taxes":0,
-       "Maintenance and Repairs":0,
-       "Insurance":0
-    },
-    "Utilities":{
-       "Electricity":0,
-       "Water":0,
-       "Gas":0,
-       "TV":0,
-       "Internet":0,
-       "Phone":0
-    },
-    "Food":{
-       "Groceries":0,
-       "Dining Out":0
-    },
-    "Transportation":{
-       "Vehicle Payment":0,
-       "Fuel":0,
-       "Vehicle Maintenance and Repairs":0,
-       "Vehicle Insurance":0
-    },
-    "Clothing":{
-       "Adult":0,
-       "Children":0,
-       "Cleaning and Laundry":0
-    },
-    "Health":{
-       "Health Insurance":0,
-       "Dental Insurance":0,
-       "Doctor Visits":0,
-       "Dentist":0,
-       "Medicine":0
-    },
-    "Personal":{
-       "Life insurance":0,
-       "Child care":0,
-       "Household items":0,
-       "Hair care":0,
-       "Education":0,
-       "Subscriptions":0,
-       "Free spending":0,
-       "Donations":0
-    },
-    "Recreation":{
-       "Entertainment":0,
-       "Vacation":0
-    },
-    "Additional Loans":{
-       "Credit card":0,
-       "Personal loan":0
-    }
-  };
+  let contentJSON = getBudgetContent();
 
   let formContent: JSX.Element[] = [];
 
@@ -132,7 +67,7 @@ export default function BudgetCreateComponent({ budget, currencies, onBudgetCrea
     setCurrency(value);
   }
 
-  return currencies && (
+  return onCreatedRedirect || (currencies && (
   <div className={classes.form}>
     <div>
       <h1>Create Budget</h1>
@@ -166,7 +101,6 @@ export default function BudgetCreateComponent({ budget, currencies, onBudgetCrea
               currency: currency
             };
 
-            console.log(body)
             onBudgetCreate(body);
           }}
         >
@@ -175,5 +109,5 @@ export default function BudgetCreateComponent({ budget, currencies, onBudgetCrea
       </div>
     </div>
   </div>
-  );
+  ));
 }

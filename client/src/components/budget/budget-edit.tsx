@@ -86,7 +86,6 @@ export default function BudgetEditComponent({ onButtonClick, budget, currencies}
 
       <SelectCurrencies currencies={currencies} defaultValue={budget.currency}onCurrencyChange={onCurrencyChange}></SelectCurrencies>
 
-
       {formContent}
 
       <div>

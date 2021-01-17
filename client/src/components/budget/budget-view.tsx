@@ -1,10 +1,12 @@
 import React from 'react';
 import { Button, makeStyles } from '@material-ui/core';
 import SelectCurrencies from './select-currencies';
-import { BudgetCurrencyRates } from '../../entities/budget-currency-rates';
+import { Budget } from '../../entities/budget';
+import { CurrencyRates } from '../../entities/currency-rates';
 
 interface Props {
-  selectedBudget: BudgetCurrencyRates;
+  selectedBudget: Budget;
+  currencyRates: CurrencyRates;
   currencies: string[];
 }
 
@@ -63,22 +65,19 @@ const useStyles = makeStyles({
   }
 });
 
-export default function BudgetViewComponent({ selectedBudget , currencies }: Props) {
+export default function BudgetViewComponent({ selectedBudget, currencyRates, currencies }: Props) {
   const classes = useStyles({});
-
   let budgetContent: JSX.Element[] = [];
 
   if (selectedBudget) {
-    console.log(selectedBudget.budget);
-    console.log(selectedBudget.currencyRates);
-    for (const cat in selectedBudget.budget.content) {
+    for (const cat in selectedBudget.content) {
       budgetContent.push( 
         <div id={cat} className={classes.category}>
           <h2>{cat}</h2>
           {
-            Object.keys(selectedBudget.budget.content[cat]).map(subCat => (
+            Object.keys(selectedBudget.content[cat]).map(subCat => (
              <p className={classes.subCat}>{subCat}: 
-              <span className={classes.value}>{selectedBudget.budget.content[cat][subCat]}</span> 
+              <span className={classes.value}>{selectedBudget.content[cat][subCat]}</span> 
               <span className={classes.convertedCurrency}></span> 
              </p>
             ))
@@ -92,7 +91,7 @@ export default function BudgetViewComponent({ selectedBudget , currencies }: Pro
     let budgetValues: HTMLCollection = document.getElementsByClassName(classes.value);
     let convertedValues: HTMLCollection = document.getElementsByClassName(classes.convertedCurrency);
 
-    let currencyRate: number = selectedBudget.currencyRates.rates[futureCurrency];
+    let currencyRate: number = currencyRates.rates[futureCurrency];
 
     for (let i = 0; i < budgetValues.length; i++) {
       const valueWrapper = budgetValues[i];
@@ -110,22 +109,25 @@ export default function BudgetViewComponent({ selectedBudget , currencies }: Pro
     convertIntoCurrency(value);
   }
 
-  return selectedBudget && (
+  return selectedBudget && currencyRates && (
     <div className={classes.budgetWrapper}>
       <div className={classes.options}>
-        <p className={classes.currencyLine}>This budget is in <b>{selectedBudget.budget.currency}</b>. Select a currency to convert it to:</p>
+        <p className={classes.currencyLine}>This budget is in {selectedBudget.currency}. Select a currency to convert it to:</p>
 
-        <SelectCurrencies currencies={currencies.filter(currency => currency != selectedBudget.budget.currency)} defaultValue={selectedBudget.budget.currency} onCurrencyChange={onCurrencyChange}></SelectCurrencies>
+        <SelectCurrencies 
+          currencies={currencies.filter(currency => currency != selectedBudget.currency)} 
+          defaultValue={selectedBudget.currency} 
+          onCurrencyChange={onCurrencyChange}></SelectCurrencies>
         <Button
           className={classes.button}
           variant="outlined"
           color="inherit"
-          href={"/budgets/" + selectedBudget.budget.id + "/edit"}
+          href={"/budgets/" + selectedBudget.id + "/edit"}
           >
             Edit Budget
         </Button>
       </div>
-      <h1 className={classes.pageHeading}>{selectedBudget.budget.name}</h1>
+      <h1 className={classes.pageHeading}>{selectedBudget.name}</h1>
       <p className={classes.warning}>Blue values represent converted currency values</p>
       {budgetContent}
     </div>

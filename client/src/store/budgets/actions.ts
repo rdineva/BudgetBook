@@ -1,18 +1,22 @@
 import { ThunkDispatch } from 'redux-thunk';
 import { createAsyncAction, ActionType, createStandardAction } from 'typesafe-actions';
 import { Budget } from '../../entities/budget';
-import { BudgetCurrencyRates } from '../../entities/budget-currency-rates';
+import { CurrencyRates } from '../../entities/currency-rates';
 import httpService from '../../services/http';
 
 export const actions = {
   selectBudget: createStandardAction(
     '@budgets/selectBudget',
   )
-    <BudgetCurrencyRates>(),
+    <Budget>(),
   getCurrencies: createStandardAction(
     '@budgets/getCurrencies',
   )
     <Array<string>>(),
+  getCurrencyRates: createStandardAction(
+    '@budgets/getCurrencyRates',
+  )
+    <CurrencyRates>(),
   loadBudgets: createAsyncAction(
     '@budgets/loadBudgetsRequest',
     '@budgets/loadBudgetsSuccess',
@@ -38,7 +42,6 @@ export function loadBudgets() {
     dispatch(actions.loadBudgets.request);
     try {
       const budgets = await httpService.get('budgets');
-      console.log(budgets)
       dispatch(actions.loadBudgets.success(budgets));
     } catch (error) {
       dispatch(actions.loadBudgets.failure);
@@ -48,7 +51,7 @@ export function loadBudgets() {
 
 export function selectBudget(id: string) {
   return async (dispatch: ThunkDispatch<any, any, any>) => {
-    const result: BudgetCurrencyRates = await httpService.get(`budgets/${id}`);
+    const result: Budget = await httpService.get(`budgets/${id}`);
     dispatch(actions.selectBudget(result));
   };
 }
@@ -83,6 +86,13 @@ export function getCurrencies() {
   return async (dispatch: ThunkDispatch<any, any, any>) => {
     const currencies: string[] = await httpService.get(`budgets/currencies`);
     dispatch(actions.getCurrencies(currencies));
+  };
+}
+
+export function getCurrencyRates() {
+  return async (dispatch: ThunkDispatch<any, any, any>) => {
+    const currencyRates: CurrencyRates = await httpService.get(`budgets/currencyRates`);
+    dispatch(actions.getCurrencyRates(currencyRates));
   };
 }
 

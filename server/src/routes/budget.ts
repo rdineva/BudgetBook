@@ -28,13 +28,21 @@ budget.get('/currencies', async (req: Request, res: Response) => {
     });
 });
 
+budget.get('/currencyRates', async (req: Request, res: Response) => {
+  const { budgetController } = res.locals;
+  const { budgetId } = req.params;
+  const budget = await budgetController.getById(budgetId);
+
+  fetch(`https://api.exchangeratesapi.io/latest?base=${budget.currency}`)
+    .then((resp) => resp.json() )
+    .then((currencyRates) => res.json(currencyRates))
+});
+
 budget.get('/:budgetId', async (req: Request, res: Response) => {
   const { budgetController } = res.locals;
   const { budgetId } = req.params;
   const budget = await budgetController.getById(budgetId);
-  fetch(`https://api.exchangeratesapi.io/latest?base=${budget.currency}`)
-    .then((resp) => resp.json() )
-    .then((currencyRates) => res.json({budget, currencyRates}))
+  res.json(budget);
 });
 
 budget.delete('/:budgetId', async (req: Request, res: Response) => {
@@ -48,7 +56,6 @@ budget.post('/', async (req: Request, res: Response) => {
   const { budgetController } = res.locals;
   const { body } = req;
   const newBudget = await budgetController.create(body);
-  console.log(newBudget)
   console.log(`Created new budget with name: ${newBudget.name}`);
   res.json(newBudget);
 });
