@@ -33,11 +33,9 @@ budget.get('/:budgetId', async (req: Request, res: Response) => {
   const { budgetController } = res.locals;
   const { budgetId } = req.params;
   const budget = await budgetController.getById(budgetId);
-  res.json(budget);
-
-  fetch('https://api.exchangeratesapi.io/latest')
-    .then((resp) => resp.json())
-    .then((data) => console.log(data))
+  fetch(`https://api.exchangeratesapi.io/latest?base=${budget.currency}`)
+    .then((resp) => resp.json() )
+    .then((currencyRates) => res.json({budget, currencyRates}))
 });
 
 budget.delete('/:budgetId', async (req: Request, res: Response) => {

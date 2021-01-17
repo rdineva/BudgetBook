@@ -3,7 +3,7 @@ import { getType } from 'typesafe-actions';
 import { BudgetsAction, actions } from './actions';
 import { Budget } from '../../entities/budget';
 
-function selectedBudget(state: Budget = null, action: BudgetsAction): Budget {
+function selectedBudget(state: {budget: Budget, currencyRates: JSON} = null, action: BudgetsAction): {budget: Budget, currencyRates: JSON} {
   switch (action.type) {
     case getType(actions.selectBudget):
       return action.payload;

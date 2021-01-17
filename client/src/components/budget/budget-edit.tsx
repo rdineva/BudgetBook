@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Button, makeStyles, TextField } from '@material-ui/core';
 import { Redirect } from 'react-router';
 import { Budget } from '../../entities/budget';
+import SelectCurrencies from './select-currencies';
 
 interface Props {
   onButtonClick(body: any): void;
   budget: Budget;
-  actionType: string;
+  currencies: string[];
 }
 
 const useStyles = makeStyles({
@@ -26,8 +27,9 @@ const useStyles = makeStyles({
   }
 });
 
-export default function BudgetEditComponent({ onButtonClick, budget, actionType}: Props) {
+export default function BudgetEditComponent({ onButtonClick, budget, currencies}: Props) {
   const classes = useStyles({});
+  const [currency, setCurrency] = useState('');
   const [onEditedRedirect, setOnEditedRedirect] = useState(null);
 
   if (budget && !onEditedRedirect) {
@@ -60,10 +62,14 @@ export default function BudgetEditComponent({ onButtonClick, budget, actionType}
     }
   }
 
+  const onCurrencyChange = (value: string) => {
+    setCurrency(value);
+  }
+
   return budget && (
   <div className={classes.form}>
     <div>
-      <h1>{actionType} Budget</h1>
+      <h1>Edit Budget: {budget.name}</h1>
       <div>
         <TextField
           name="name"
@@ -78,6 +84,9 @@ export default function BudgetEditComponent({ onButtonClick, budget, actionType}
         />
       </div>
 
+      <SelectCurrencies currencies={currencies} defaultValue={budget.currency}onCurrencyChange={onCurrencyChange}></SelectCurrencies>
+
+
       {formContent}
 
       <div>
@@ -90,13 +99,14 @@ export default function BudgetEditComponent({ onButtonClick, budget, actionType}
             const body = {
               name: budget.name,
               content: budget.content,
-              id: budget.id
+              id: budget.id,
+              currency: currency
             };
 
             onButtonClick(body);
           }}
         >
-          {actionType}
+          Edit Budget
         </Button>
         <Button
           className={classes.button}

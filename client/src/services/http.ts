@@ -14,7 +14,9 @@ class HttpService {
         body: data ? JSON.stringify(data) : null,
       };      
     }
-
+    console.log(requestOptions);
+    console.log(path);
+    console.log(method);
     const response = await window.fetch(`${API_URL}/${path}`, requestOptions);
     return response.json();
   }

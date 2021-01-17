@@ -1,8 +1,10 @@
 import { InputLabel, makeStyles, MenuItem, Select } from "@material-ui/core";
 import React, { useState } from "react";
+import BudgetCreate from "../../containers/budget/budget-create";
 
 interface Props {
   currencies: string[];
+  defaultValue: string;
   onCurrencyChange(value: string): void;
 }
 
@@ -16,11 +18,11 @@ const useStyles = makeStyles({
   }
 });
 
-export default function SelectCurrencies({ currencies, onCurrencyChange }: Props) {
+export default function SelectCurrencies({ currencies, defaultValue, onCurrencyChange }: Props) {
   const classes = useStyles({});
   
   let items: JSX.Element[] = [];
-  const [currency, setCurrency] = useState('');
+  const [currency, setCurrency] = useState(defaultValue);
 
   currencies.map((currency: string) => {
     items.push(
@@ -38,7 +40,6 @@ export default function SelectCurrencies({ currencies, onCurrencyChange }: Props
           placeholder="Currency"
           className={classes.select}
           value={currency}
-          defaultValue="EUR"
           onChange={(event: any) => {
             setCurrency(event.target.value);
             onCurrencyChange(event.target.value)

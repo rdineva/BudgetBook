@@ -149,7 +149,7 @@ export default function BudgetCreateComponent({ budget, currencies, onBudgetCrea
         />
       </div>
 
-      <SelectCurrencies currencies={currencies} onCurrencyChange={onCurrencyChange}></SelectCurrencies>
+      <SelectCurrencies currencies={currencies} defaultValue='EUR' onCurrencyChange={onCurrencyChange}></SelectCurrencies>
 
       {formContent}
 

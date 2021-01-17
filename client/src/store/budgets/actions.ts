@@ -7,7 +7,7 @@ export const actions = {
   selectBudget: createStandardAction(
     '@budgets/selectBudget',
   )
-    <Budget>(),
+    <{budget: Budget, currencyRates: JSON}>(),
   getCurrencies: createStandardAction(
     '@budgets/getCurrencies',
   )
@@ -47,8 +47,8 @@ export function loadBudgets() {
 
 export function selectBudget(id: string) {
   return async (dispatch: ThunkDispatch<any, any, any>) => {
-    const budget: Budget = await httpService.get(`budgets/${id}`);
-    dispatch(actions.selectBudget(budget));
+    const result: {budget: Budget, currencyRates: JSON} = await httpService.get(`budgets/${id}`);
+    dispatch(actions.selectBudget(result));
   };
 }
 

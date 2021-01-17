@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Button, makeStyles, TextField } from '@material-ui/core';
 import { Redirect } from 'react-router';
 import { Budget } from '../../entities/budget';
+import SelectCurrencies from './select-currencies';
 
 interface Props {
-  budget: Budget;
+  selectedBudget: {budget: Budget, currencyRates: JSON};
+  currencies: string[];
 }
 
 const useStyles = makeStyles({
@@ -56,20 +58,22 @@ const useStyles = makeStyles({
 
 
 
-export default function BudgetViewComponent({ budget }: Props) {
+export default function BudgetViewComponent({ selectedBudget , currencies }: Props) {
   const classes = useStyles({});
 
   let budgetContent: JSX.Element[] = [];
 
-  if (budget) {
-    for (const cat in budget.content) {
+  if (selectedBudget) {
+    console.log(selectedBudget.budget);
+    console.log(selectedBudget.currencyRates);
+    for (const cat in selectedBudget.budget.content) {
       budgetContent.push( 
         <div id={cat} className={classes.category}>
           <h2>{cat}</h2>
           {
-            Object.keys(budget.content[cat]).map(subCat => (
+            Object.keys(selectedBudget.budget.content[cat]).map(subCat => (
              <p className={classes.subCat}>{subCat}: 
-              <span className={classes.value}>{budget.content[cat][subCat]}</span> 
+              <span className={classes.value}>{selectedBudget.budget.content[cat][subCat]}</span> 
               <span className={classes.convertedCurrency}></span> 
              </p>
             ))
@@ -79,10 +83,14 @@ export default function BudgetViewComponent({ budget }: Props) {
     }
   }
 
-  function convertIntoCurrency() {
+  function convertIntoCurrency(initialCurrency, futureCurrency) {
     let budgetValues: HTMLCollection = document.getElementsByClassName(classes.value);
     let convertedValues: HTMLCollection = document.getElementsByClassName(classes.convertedCurrency);
-    let currencyRate: number = 1.2;
+    console.log(initialCurrency);
+    console.log(futureCurrency);
+
+
+    let currencyRate: number = selectedBudget.currencyRates.rates[futureCurrency];
 
     for (let i = 0; i < budgetValues.length; i++) {
       const valueWrapper = budgetValues[i];
@@ -96,25 +104,33 @@ export default function BudgetViewComponent({ budget }: Props) {
     warning.style.opacity = '1';
   }
 
-  return budget && (
+  const onCurrencyChange = (value: string) => {
+    convertIntoCurrency(selectedBudget.budget.currency, value);
+  }
+
+  return selectedBudget && (
     <div className={classes.budgetWrapper}>
-      <Button
+      <p>This budget is in {selectedBudget.budget.currency}</p>
+      <p>Select a currency to convert it to:</p>
+
+      <SelectCurrencies currencies={currencies} defaultValue={selectedBudget.budget.currency} onCurrencyChange={onCurrencyChange}></SelectCurrencies>
+      {/* <Button
           className={classes.button}
           variant="outlined"
           color="inherit"
-          onClick={convertIntoCurrency}
+          onClick={onCurrencyChange}
           >
             Convert
-        </Button>
+        </Button> */}
         <Button
           className={classes.button}
           variant="outlined"
           color="inherit"
-          href={"/budgets/" + budget.id + "/edit"}
+          href={"/budgets/" + selectedBudget.budget.id + "/edit"}
           >
             Edit Budget
         </Button>
-      <h1 className={classes.pageHeading}>{budget.name}</h1>
+      <h1 className={classes.pageHeading}>{selectedBudget.budget.name}</h1>
       <p className={classes.warning}>Blue values represent converted currency values</p>
       {budgetContent}
     </div>
