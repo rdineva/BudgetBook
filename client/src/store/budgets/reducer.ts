@@ -58,6 +58,15 @@ function currencyRates(state: CurrencyRates = null, action: BudgetsAction): Curr
   }
 }
 
+function deletedBudget(state: string = null, action: BudgetsAction): string {
+  switch (action.type) {
+    case getType(actions.deleteBudget):
+      return action.payload;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   selectedBudget,
   budgets,
@@ -65,4 +74,5 @@ export default combineReducers({
   editedBudget,
   currencies,
   currencyRates,
+  deletedBudget
 });

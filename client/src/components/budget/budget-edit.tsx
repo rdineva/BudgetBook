@@ -8,6 +8,7 @@ interface Props {
   onButtonClick(body: any): void;
   budget: Budget;
   currencies: string[];
+  onDeleteClick(id: string): void; 
 }
 
 const useStyles = makeStyles({
@@ -27,14 +28,10 @@ const useStyles = makeStyles({
   }
 });
 
-export default function BudgetEditComponent({ onButtonClick, budget, currencies}: Props) {
+export default function BudgetEditComponent({ onButtonClick, budget, currencies, onDeleteClick}: Props) {
   const classes = useStyles({});
   const [currency, setCurrency] = useState('');
-  const [onEditedRedirect, setOnEditedRedirect] = useState(null);
-
-  if (budget && !onEditedRedirect) {
-    setOnEditedRedirect(<Redirect to={`/budgets/${budget.id}`} push />);
-  }
+  const [redirect, setRedirect] = useState(null);
 
   let formContent: JSX.Element[] = [];
 
@@ -66,8 +63,21 @@ export default function BudgetEditComponent({ onButtonClick, budget, currencies}
     setCurrency(value);
   }
 
-  return budget && (
+  return redirect || (budget && (
   <div className={classes.form}>
+    <Button
+      className={classes.button}
+      variant="outlined"
+      color="inherit"
+      // href={"/budgets/" + budget.id + "/"}
+      onClick={() => {
+        onDeleteClick(budget.id);
+        // window.location.href='/budgets/list';
+        setRedirect(<Redirect to={"/budgets/list"} push />)
+      }}
+      >
+       DELETE BUDGET
+    </Button>
     <div>
       <h1>Edit Budget: {budget.name}</h1>
       <div>
@@ -118,5 +128,5 @@ export default function BudgetEditComponent({ onButtonClick, budget, currencies}
       </div>
     </div>
   </div>
-  );
+  ));
 }

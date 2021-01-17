@@ -34,7 +34,11 @@ export const actions = {
       '@budgets/editBudgetSuccess',
       '@budgets/editBudgetFailure',
     )
-      <void, Budget, Error>(),
+    <void, Budget, Error>(),
+  deleteBudget: createStandardAction(
+    '@budgets/deleteBudget',
+  )
+  <string>(),
 };
 
 export function loadBudgets() {
@@ -93,6 +97,13 @@ export function getCurrencyRates() {
   return async (dispatch: ThunkDispatch<any, any, any>) => {
     const currencyRates: CurrencyRates = await httpService.get(`budgets/currencyRates`);
     dispatch(actions.getCurrencyRates(currencyRates));
+  };
+}
+
+export function deleteBudget(id: string) {
+  return async (dispatch: ThunkDispatch<any, any, any>) => {
+    const result: string = await httpService.delete(`budgets/${id}`);
+    dispatch(actions.deleteBudget(result));
   };
 }
 

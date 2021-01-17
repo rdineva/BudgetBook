@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import useAppState from '../../hooks/use-app-state';
-import { editBudget, selectBudget, getCurrencies } from '../../store/budgets/actions';
+import { editBudget, selectBudget, getCurrencies, deleteBudget } from '../../store/budgets/actions';
 import BudgetEditComponent from '../../components/budget/budget-edit';
 import { RouteComponentProps } from 'react-router';
 
@@ -24,11 +24,16 @@ export default function BudgetEdit(props: RouteComponentProps<{ id: string }>) {
     dispatch(getCurrencies());
   }, []);
 
+  function onDeleteClick(id: string) {
+    dispatch(deleteBudget(id));
+  }
+
   return (
     <BudgetEditComponent
       onButtonClick={onEditClick}
       budget={selectedBudget}
       currencies={currencies}
+      onDeleteClick={onDeleteClick}
     />
   );
 }
