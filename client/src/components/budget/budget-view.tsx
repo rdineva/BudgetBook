@@ -96,7 +96,8 @@ export default function BudgetViewComponent({ selectedBudget, currencyRates, cur
     for (let i = 0; i < budgetValues.length; i++) {
       const valueWrapper = budgetValues[i];
       const catValue: number = Number(valueWrapper.innerHTML);
-      const convertedValue: number = currencyRate * catValue;
+      let convertedValue: number = currencyRate * catValue;
+      convertedValue = Number(convertedValue.toFixed(3)); 
       let convertedValueWrapper = convertedValues[i];
       convertedValueWrapper.innerHTML = String(convertedValue);
     }

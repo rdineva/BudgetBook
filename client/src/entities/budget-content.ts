@@ -2,7 +2,7 @@ export default function getBudgetContent(): any {
    return {
       "Income":{
          "Work":0,
-         "Passive income":1,
+         "Passive income":0,
          "Bonus":0
       },
       "Savings":{
